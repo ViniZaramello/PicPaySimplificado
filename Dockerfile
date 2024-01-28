@@ -8,10 +8,8 @@ RUN gradle build --no-daemon
 
 FROM openjdk:17-jdk-slim
 
-RUN mkdir /teste
 RUN mkdir /app
 
-COPY . /teste
 COPY --from=build /home/gradle/src/build/libs /app/
 
 EXPOSE 3001
