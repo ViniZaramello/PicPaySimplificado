@@ -4,7 +4,6 @@ import com.picPaySimplificado.client.ConfirmTransferApproval
 import com.picPaySimplificado.client.PostConfirmationTransactionByEmail
 import com.picPaySimplificado.exception.NotFoundException
 import com.picPaySimplificado.helper.buildTransaction
-import com.picPaySimplificado.model.TransactionModel
 import com.picPaySimplificado.repository.CustomerRepository
 import com.picPaySimplificado.repository.TransactionRepository
 import io.mockk.every
@@ -13,12 +12,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.LocalDate
+import com.picPaySimplificado.helper.buildCustomer
+
 import java.util.*
 
 
@@ -44,8 +43,6 @@ class TransactionServiceTest() {
     @InjectMockKs
     lateinit var transactionService: TransactionService
 
-    @InjectMockKs
-    lateinit var customerServiceTest: CustomerServiceTest
     @Test
     fun `should return all transactions`() {
         val fakeTransaction = listOf(buildTransaction())
@@ -90,42 +87,46 @@ class TransactionServiceTest() {
 //    @Test
 //    fun `should make a transference`(){
 //        val senderId = Random().nextInt()
-//        val sender = customerServiceTest.buildCustomer(id = senderId)
-//        val subtractValueSender = sender
+//        val sender = buildCustomer(id = senderId)
+//        val getSenderData = sender
 //
 //        val recipientId = Random().nextInt()
-//        val recipient = customerServiceTest.buildCustomer(id = recipientId)
-//        val addRecipientValue = recipient
+//        val recipient = buildCustomer(id = recipientId)
+//        val getRecipientData = recipient
 //
 //        val transaction = buildTransaction(envia = senderId, recebe = recipientId)
 //
 //
 //        //senderValidateMock
-//        every { repository.existsById(transaction.envia) } returns true
-//        every { repository.findById(transaction.envia).get() } returns sender
+//        every { customerService.senderValidate(transaction) } returns sender
 //
 //        //recipientValidate
-//        every { repository.existsById(transaction.recebe) } returns true
-//        every { repository.findById(transaction.recebe).get() } returns recipient
+//        every { customerService.recipientValidate(transaction) } returns recipient
 //
+//        //checkBalance
+//        every { customerService.checkBalance(transaction.valor, sender.saldo) } returns true
 //
-//        every { customerService.checkBalance(sender.saldo, transaction.valor) } returns true
 //        every { repository.save(any()) } returns transaction
+//
 //        every { postConfirmationTransactionByEmail.sendConfirmationForEmailApi(transaction) } returns true
-//        every { customerRepository.save(subtractValueSender) } returns subtractValueSender
-//        every { customerRepository.save(addRecipientValue) } returns addRecipientValue
+//
+//        every { customerRepository.save(getSenderData) } returns getSenderData
+//        every { customerRepository.save(getRecipientData) } returns getRecipientData
+//
+//        every { confirmTransferApproval.getValidateTransferApproval() } returns true
+//
 //
 //        transactionService.transference(transaction)
-////        val balanceTestSender = customerService.checkBalance(sender.saldo, transaction.valor)
-////        assertTrue(balanceTestSender)
-//
+////
+////        assertEquals(450.0F, getSenderData.saldo)
+////        assertEquals(550.0F, getRecipientData.saldo)
 //        verify(exactly = 1) { customerService.senderValidate(transaction) }
 //        verify(exactly = 1) { customerService.recipientValidate(transaction) }
 //        verify(exactly = 1) { customerService.checkBalance(sender.saldo, transaction.valor) }
 //        verify(exactly = 1) { repository.save(any()) }
 //        verify(exactly = 1) { postConfirmationTransactionByEmail.sendConfirmationForEmailApi(transaction) }
-//        verify(exactly = 1) { customerRepository.save(subtractValueSender) }
-//        verify(exactly = 1) { customerRepository.save(addRecipientValue) }
+//        verify(exactly = 1) { customerRepository.save(getSenderData) }
+//        verify(exactly = 1) { customerRepository.save(getRecipientData) }
 //
 //    }
 

@@ -29,8 +29,6 @@ class TransactionService(
 
         customerService.checkBalance(transaction.valor, getSenderData.saldo)  //Erro tratado
 
-        val subtractValueSender = getSenderData
-        val addRecipientValue = getRecipientData
 
         val dataTransacao: LocalDate? = LocalDate.now()
         val postHistory = TransactionModel(
@@ -41,12 +39,12 @@ class TransactionService(
         )
 
         if (confirmTransferApproval.getValidateTransferApproval())
-            subtractValueSender.saldo = subtractValueSender.saldo - transaction.valor
+            getSenderData.saldo -= transaction.valor
 
-            customerRepository.save(subtractValueSender)
+            customerRepository.save(getSenderData)
 
-            addRecipientValue.saldo = transaction.valor + addRecipientValue.saldo
-            customerRepository.save(addRecipientValue)
+            getRecipientData.saldo += transaction.valor
+            customerRepository.save(getRecipientData)
 
             postConfirmationTransactionByEmail.sendConfirmationForEmailApi(transaction)
 
