@@ -17,8 +17,8 @@ import org.springframework.http.HttpStatus
 class CustomerController(
     val service: CustomerService
 ) {
-    @GetMapping("teste")
-    fun test(): String {
+    @GetMapping("health")
+    fun healthController(): String {
         return "olá"
     }
 
