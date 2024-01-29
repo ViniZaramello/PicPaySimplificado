@@ -23,7 +23,7 @@ import java.util.*
 
 @ExtendWith(MockKExtension::class)
 @SpringBootTest
-class TransactionServiceTest() {
+class TransactionServiceTest {
 
     @MockK
     private lateinit var customerService: CustomerService
@@ -84,51 +84,50 @@ class TransactionServiceTest() {
     }
     //Transference
 
-//    @Test
-//    fun `should make a transference`(){
-//        val senderId = Random().nextInt()
-//        val sender = buildCustomer(id = senderId)
-//        val getSenderData = sender
-//
-//        val recipientId = Random().nextInt()
-//        val recipient = buildCustomer(id = recipientId)
-//        val getRecipientData = recipient
-//
-//        val transaction = buildTransaction(envia = senderId, recebe = recipientId)
-//
-//
-//        //senderValidateMock
-//        every { customerService.senderValidate(transaction) } returns sender
-//
-//        //recipientValidate
-//        every { customerService.recipientValidate(transaction) } returns recipient
-//
-//        //checkBalance
-//        every { customerService.checkBalance(transaction.valor, sender.saldo) } returns true
-//
-//        every { repository.save(any()) } returns transaction
-//
-//        every { postConfirmationTransactionByEmail.sendConfirmationForEmailApi(transaction) } returns true
-//
-//        every { customerRepository.save(getSenderData) } returns getSenderData
-//        every { customerRepository.save(getRecipientData) } returns getRecipientData
-//
-//        every { confirmTransferApproval.getValidateTransferApproval() } returns true
-//
-//
-//        transactionService.transference(transaction)
-////
-////        assertEquals(450.0F, getSenderData.saldo)
-////        assertEquals(550.0F, getRecipientData.saldo)
-//        verify(exactly = 1) { customerService.senderValidate(transaction) }
-//        verify(exactly = 1) { customerService.recipientValidate(transaction) }
-//        verify(exactly = 1) { customerService.checkBalance(sender.saldo, transaction.valor) }
-//        verify(exactly = 1) { repository.save(any()) }
-//        verify(exactly = 1) { postConfirmationTransactionByEmail.sendConfirmationForEmailApi(transaction) }
-//        verify(exactly = 1) { customerRepository.save(getSenderData) }
-//        verify(exactly = 1) { customerRepository.save(getRecipientData) }
-//
-//    }
+    @Test
+    fun `should make a transference`(){
+        val senderId = Random().nextInt()
+        val sender = buildCustomer(id = senderId)
+        val getSenderData = sender
+
+        val recipientId = Random().nextInt()
+        val recipient = buildCustomer(id = recipientId)
+        val getRecipientData = recipient
+
+        val transaction = buildTransaction(envia = senderId, recebe = recipientId)
+
+
+        //senderValidateMock
+        every { customerService.senderValidate(transaction) } returns sender
+
+        //recipientValidate
+        every { customerService.recipientValidate(transaction) } returns recipient
+
+        //checkBalance
+        every { customerService.checkBalance(transaction.valor, sender.saldo) } returns true
+
+        every { repository.save(any()) } returns transaction
+
+        every { postConfirmationTransactionByEmail.sendConfirmationForEmailApi(transaction) } returns true
+
+        every { customerRepository.save(getSenderData) } returns getSenderData
+        every { customerRepository.save(getRecipientData) } returns getRecipientData
+
+        every { confirmTransferApproval.getValidateTransferApproval() } returns true
+
+
+        transactionService.transference(transaction)
+
+        assertEquals(450.0F, getSenderData.saldo)
+        assertEquals(550.0F, getRecipientData.saldo)
+        verify(exactly = 1) { customerService.senderValidate(transaction) }
+        verify(exactly = 1) { customerService.recipientValidate(transaction) }
+        verify(exactly = 1) { repository.save(any()) }
+        verify(exactly = 1) { postConfirmationTransactionByEmail.sendConfirmationForEmailApi(transaction) }
+        verify(exactly = 1) { customerRepository.save(getSenderData) }
+        verify(exactly = 1) { customerRepository.save(getRecipientData) }
+
+    }
 
 
 
