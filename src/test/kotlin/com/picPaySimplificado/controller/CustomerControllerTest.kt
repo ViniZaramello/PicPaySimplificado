@@ -42,7 +42,7 @@ class CustomerControllerTest{
 
     @Test
     fun `Should return ola`() {
-        mockMvc.perform(get("/customer/teste"))
+        mockMvc.perform(get("/customer/health"))
             .andExpect(status().isOk)
     }
 
