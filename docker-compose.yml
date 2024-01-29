@@ -7,7 +7,7 @@ services:
       - mysql57
     build: .
     ports:
-      - "3001:3001"
+      - "0.0.0.0:3001:3001"
     networks:
       - bco_default
     restart: always
@@ -18,11 +18,10 @@ services:
     networks:
       - bco_default
     ports:
-      - "0.0.0.0:3307:3306"
+      - "0.0.0.0:3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: Password123#@!
       MYSQL_DATABASE: testepicpay
-    restart: always
     volumes:
       - ./.mysql-data/db:/var/lib/mysql
 

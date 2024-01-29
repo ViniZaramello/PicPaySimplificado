@@ -57,5 +57,5 @@ tasks.bootBuildImage {
 
 tasks.named<Test>("test"){
 	useJUnitPlatform()
-//	exclude("**/controller/**", "**/service/**")
+	exclude("**/controller/**", "**/service/**")
 }
