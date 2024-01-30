@@ -66,7 +66,6 @@ docker compose up --build -d
     
     ****************************Descrição****************************: É utilizado para testar se a API estava funcionando
     
-    ******************************Corpo da requisição:****************************** Não é necessário 
     
     ---
     
@@ -76,7 +75,6 @@ docker compose up --build -d
     
     ******************Descrição:****************** Devolve uma lista de Customers
     
-    ******************************Corpo da requisição:****************************** Não é necessário 
     
     ---
     
@@ -86,7 +84,6 @@ docker compose up --build -d
     
     **********************Descrição:********************** Ao informar um id especifico, ele retornará apenas aquele customer (caso exista)
     
-    ******Corpo da requisição:****** Não é necessário 
     
     ---
     
@@ -105,7 +102,7 @@ docker compose up --build -d
     	"registroGoverno":"41730760961", //Tipo String, porém deve conter entre 11 a 14 caracteres
     	"email":"robertoCarlos@gmail.com", //Tipo String
     	"senha":"robertao@007", //Tipo String
-    	"saldo":"300.00" //Tipo Float
+    	"saldo": 300.00 //Tipo Float
     }
     ```
     
@@ -126,7 +123,7 @@ docker compose up --build -d
     	"registroGoverno":"41730760961935", //Tipo String, porém deve conter entre 11 a 14 caracteres
     	"email":"pastelDoMarcelao@gmail.com", //Tipo String
     	"senha":"pastel@7reais", //Tipo String
-    	"saldo":"300.00" //Tipo Float
+    	"saldo": 300.00 //Tipo Float
     }
     ```
     
@@ -158,7 +155,6 @@ docker compose up --build -d
     
     **********************Descrição:********************** Ao informar um id especifico, ele retornará apenas aquela transference (caso exista)
     
-    ******Corpo da requisição:****** Não é necessário
     
     ---
     
@@ -174,7 +170,7 @@ docker compose up --build -d
     {
       "envia":"pastelDoMarcelao@gmail.com", //Tipo String
     	"recebe":"pastel@7reais", //Tipo String
-    	"valor":"300.00" //Tipo Float
+    	"valor": 300.00 //Tipo Float
     }
     ```
     
