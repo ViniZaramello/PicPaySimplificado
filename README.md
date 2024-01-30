@@ -60,7 +60,7 @@ docker compose up --build -d
 - ******************Customer******************
     - A rota para tratar os usuarios é **/customer**
     
-    ### /customer/teste
+    ### /customer/health
     
     **Tipo: GET**
     
