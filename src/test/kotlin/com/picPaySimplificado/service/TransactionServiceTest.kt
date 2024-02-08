@@ -101,7 +101,7 @@ class TransactionServiceTest {
         every { customerService.senderValidate(transaction) } returns sender
 
         //recipientValidate
-        every { customerService.recipientValidate(transaction) } returns recipient
+        every { customerService.recipientValidate(transaction, sender) } returns recipient
 
         //checkBalance
         every { customerService.checkBalance(transaction.valor, sender.saldo) } returns true
@@ -121,7 +121,7 @@ class TransactionServiceTest {
         assertEquals(450.0F, getSenderData.saldo)
         assertEquals(550.0F, getRecipientData.saldo)
         verify(exactly = 1) { customerService.senderValidate(transaction) }
-        verify(exactly = 1) { customerService.recipientValidate(transaction) }
+        verify(exactly = 1) { customerService.recipientValidate(transaction, sender) }
         verify(exactly = 1) { repository.save(any()) }
         verify(exactly = 1) { postConfirmationTransactionByEmail.sendConfirmationForEmailApi(transaction) }
         verify(exactly = 1) { customerRepository.save(getSenderData) }
