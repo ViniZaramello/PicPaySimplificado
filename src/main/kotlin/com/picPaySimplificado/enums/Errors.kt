@@ -12,7 +12,8 @@ enum class Errors(val code: String, val message: String) {
     //Transaction
     TO001("TO-001", "Transação [%s] não existe"),
     TO002("TO-002", "Customer [%s] não é cliente."),
-    TO003("TO-003", "Customer [%s] não existe"),
-    TO004("TO-004", "Saldo insuficiente para efetuar esta operação"),
-    TO005("TO-005", "Impossivel prosseguir com a operação. Customer [%s] está inativo ")
+    TO003("TO-003", "Customer [%s] não existe."),
+    TO004("TO-004", "Saldo insuficiente para efetuar esta operação."),
+    TO005("TO-005", "Impossivel prosseguir com a operação. Customer [%s] está inativo."),
+    TO006("TO-006", "O id que envia é o mesmo que está recebendo.")
 }

@@ -5,6 +5,8 @@ import com.picPaySimplificado.validation.registroGovernoValidation.RegistroGover
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
+import org.hibernate.validator.constraints.br.CNPJ
+import org.hibernate.validator.constraints.br.CPF
 
 data class PostCustomerRequest(
 
@@ -13,9 +15,12 @@ data class PostCustomerRequest(
 
     @field:NotEmpty(message = "RegistroGoverno não pode ser nulo")
     @RegistroGovernoAvailable
+    @CPF(message = "CPF invalido")
+    @CNPJ(message = "CNPJ invalido")
     var registroGoverno: String,
 
-    @field:Email(message = "E-mail invalido") @field:NotEmpty( message = "E-mail não pode ser nulo")
+    @field:Email(message = "E-mail invalido")
+    @field:NotEmpty( message = "E-mail não pode ser nulo")
     @EmailAvailable
     var email: String,
 

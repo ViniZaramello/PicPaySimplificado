@@ -25,7 +25,7 @@ class TransactionService(
     fun transference(transaction: TransactionModel) {
 
         val getSenderData = customerService.senderValidate(transaction)
-        val getRecipientData = customerService.recipientValidate(transaction)
+        val getRecipientData = customerService.recipientValidate(transaction, getSenderData)
 
         customerService.checkBalance(transaction.valor, getSenderData.saldo)
 

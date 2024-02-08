@@ -76,7 +76,7 @@ class CustomerServiceTest {
     fun `should return the specific exception create customers`() {
         val id = Random().nextInt()
         val fakeCustomer = buildCustomer(id = id)
-        fakeCustomer.registroGoverno = fakeCustomer.registroGoverno + 1
+        fakeCustomer.registroGoverno += 1
 
         //given
         every { repository.save(fakeCustomer) } returns fakeCustomer
@@ -306,33 +306,58 @@ class CustomerServiceTest {
 
     @Test
     fun `should validate recipient and return sender`() {
-        val id = Random().nextInt()
-        val sender = buildCustomer(id = id)
-        val transaction = buildTransaction(recebe = id)
+        val senderId = Random().nextInt()
+        val recipientId = Random().nextInt()
+        val recipient = buildCustomer(id = recipientId)
+        val sender = buildCustomer(id = senderId)
+        val transaction = buildTransaction(envia = senderId, recebe = recipientId)
 
-        every { repository.existsById(id) } returns true
-        every { repository.findById(id).get() } returns sender
+        every { repository.existsById(recipientId) } returns true
+        every { repository.findById(recipientId).get() } returns recipient
 
-        val compareSender = customerService.recipientValidate(transaction)
+        val compareSender = customerService.recipientValidate(transaction, sender)
 
-        assertEquals(sender, compareSender)
-        verify { repository.existsById(id) }
-        verify { repository.findById(id) }
+        assertEquals(recipient, compareSender)
+        verify { repository.existsById(recipientId) }
+        verify { repository.findById(recipientId) }
     }
 
     @Test
     fun `should return exception in recipientValidate`(){
-        val id = Random().nextInt()
-        val sender = buildCustomer(id = id)
-        val transaction = buildTransaction(recebe = id)
+        val recipientId = Random().nextInt()
+        val recipient = buildCustomer(id = recipientId)
+        val senderId = Random().nextInt()
+        val sender = buildCustomer(id = senderId)
+        val transaction = buildTransaction(envia = senderId, recebe = recipientId)
 
-        every { repository.existsById(id) } returns false
-        every { repository.findById(id).get() } returns sender
+        every { repository.existsById(recipientId) } returns false
+        every { repository.findById(recipientId).get() } returns recipient
 
-        val error = assertThrows<BadRequestException> { customerService.recipientValidate(transaction) }
+        val error = assertThrows<BadRequestException> {
+            customerService.recipientValidate(transaction, sender)
+        }
 
-        assertEquals("Customer [${id}] não existe", error.message)
+        assertEquals("Customer [${recipientId}] não existe", error.message)
         assertEquals("TO-003", error.errorCode)
+        verify(exactly = 1) { repository.existsById(recipientId) }
+    }
+
+    @Test
+    fun `should return exception when sender id and recipient id is equals`(){
+        val id = Random().nextInt()
+        val recipient = buildCustomer(id = id)
+        val sender = buildCustomer(id = id)
+        val transaction = buildTransaction(envia = id, recebe = id)
+
+        every { repository.existsById(id) } returns true
+        every { repository.findById(id).get() } returns recipient
+
+        val error = assertThrows<BadRequestException> {
+            customerService.recipientValidate(transaction, sender)
+        }
+        //ajustar mensagem de erro
+        assertEquals("O id que envia é o mesmo que está recebendo.", error.message)
+        assertEquals("TO-006", error.errorCode)
         verify(exactly = 1) { repository.existsById(id) }
     }
 

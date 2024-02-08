@@ -19,9 +19,8 @@ class CustomerService(private val repository: CustomerRepository) {
     }
 
     fun create(customer: CustomerModel) {
-        when (customer.registroGoverno.length) {
-            11 -> repository.save(customer)
-            14 -> repository.save(customer)
+        when (customer.registroGoverno.trim().length) {
+            11, 14 -> repository.save(customer)
             else -> throw BadRequestException(
                 Errors.CO004.message, Errors.CO004.code
             )
@@ -73,33 +72,38 @@ class CustomerService(private val repository: CustomerRepository) {
     fun senderValidate(transaction: TransactionModel): CustomerModel {
 
         val senderCheck: Boolean = repository.existsById(transaction.envia)
-        val sender = repository.findById(transaction.envia)
 
         if (!senderCheck) throw BadRequestException(
             Errors.TO003.message.format(transaction.envia), Errors.TO003.code
         )
 
-        if(!sender.get().customerStatus()) throw BadRequestException(
+        val sender = repository.findById(transaction.envia).get()
+
+        if (!sender.customerStatus()) throw BadRequestException(
             Errors.TO005.message.format(transaction.envia), Errors.TO005.code
         )
 
-        if (!sender.get().ePF()) throw BadRequestException(
+        if (!sender.ePF()) throw BadRequestException(
             Errors.TO002.message.format(transaction.envia), Errors.TO002.code
         )
 
-        return sender.get()
+        return sender
     }
 
-    fun recipientValidate(transaction: TransactionModel): CustomerModel {
+    fun recipientValidate(transaction: TransactionModel, sender: CustomerModel): CustomerModel {
 
         val recipientCheck: Boolean = repository.existsById(transaction.recebe)
-        val recipient = repository.findById(transaction.recebe)
 
         if (!recipientCheck) throw BadRequestException(
             Errors.TO003.message.format(transaction.recebe), Errors.TO003.code
         )
+        val recipient = repository.findById(transaction.recebe).get()
 
-        return recipient.get()
+        if(sender.id == recipient.id) throw BadRequestException(
+            Errors.TO006.message, Errors.TO006.code
+        )
+
+        return recipient
     }
 
     fun checkBalance(valor: Float, senderBalance: Float): Boolean {
