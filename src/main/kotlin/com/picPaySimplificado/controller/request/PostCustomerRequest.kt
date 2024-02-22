@@ -15,8 +15,6 @@ data class PostCustomerRequest(
 
     @field:NotEmpty(message = "RegistroGoverno não pode ser nulo")
     @RegistroGovernoAvailable
-    @CPF(message = "CPF invalido")
-    @CNPJ(message = "CNPJ invalido")
     var registroGoverno: String,
 
     @field:Email(message = "E-mail invalido")
