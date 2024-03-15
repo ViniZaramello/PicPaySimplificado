@@ -265,7 +265,7 @@ class CustomerServiceTest {
 
         val error = assertThrows<BadRequestException> { customerService.senderValidate(transaction) }
 
-        assertEquals("Customer [${id}] não existe", error.message)
+        assertEquals("Customer [${id}] não existe.", error.message)
         assertEquals("TO-003", error.errorCode)
         verify(exactly = 1) { repository.existsById(id) }
     }
@@ -281,7 +281,7 @@ class CustomerServiceTest {
 
         val error = assertThrows<BadRequestException> { customerService.senderValidate(transaction) }
 
-        assertEquals("Impossivel prosseguir com a operação. Customer [${id}] está inativo ", error.message)
+        assertEquals("Impossivel prosseguir com a operação. Customer [${id}] está inativo.", error.message)
         assertEquals("TO-005", error.errorCode)
         verify(exactly = 1) { repository.existsById(id) }
     }
@@ -337,7 +337,7 @@ class CustomerServiceTest {
             customerService.recipientValidate(transaction, sender)
         }
 
-        assertEquals("Customer [${recipientId}] não existe", error.message)
+        assertEquals("Customer [${recipientId}] não existe.", error.message)
         assertEquals("TO-003", error.errorCode)
         verify(exactly = 1) { repository.existsById(recipientId) }
     }
@@ -378,7 +378,7 @@ class CustomerServiceTest {
 
         val error = assertThrows<BadRequestException> { customerService.checkBalance(transaction, sender.saldo) }
 
-        assertEquals("Saldo insuficiente para efetuar esta operação", error.message)
+        assertEquals("Saldo insuficiente para efetuar esta operação.", error.message)
         assertEquals("TO-004", error.errorCode)
     }
 
