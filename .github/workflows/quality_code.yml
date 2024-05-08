@@ -20,9 +20,23 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0  # a full history is required for pull request analysis
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2024.1
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_JETBRAINS_TOKEN }}
+        uses: JetBrains/qodana-action@v2024.1.3
+        with: 
+          results-dir: ${{ runner.temp }}/qodana/results
+          cache-dir: ${{ runner.temp }}/qodana/caches
+          use-caches: true
+          primary-cache-key: qodana-2024.1-${{ github.ref }}-${{ github.sha }}
+          additional-cache-key: qodana-2024.1-${{ github.ref }}
+          cache-default-branch-only: false
+          upload-result: false
+          artifact-name: qodana-report
+          use-annotations: true
+          pr-mode: true
+          post-pr-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          push-fixes: none
+          commit-message: 🤖 Apply quick-fixes by Qodana
+          use-nightly: false
       - uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
