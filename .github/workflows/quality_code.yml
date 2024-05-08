@@ -22,7 +22,7 @@ jobs:
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.1
         env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_TOKEN: ${{ secrets.QODANA_JETBRAINS_TOKEN }}
       - uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
